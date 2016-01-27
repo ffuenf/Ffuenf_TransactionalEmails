@@ -1,0 +1,6 @@
+<?php if ($this->getData('order')->getBillingAddress()->format('html') != $this->getData('order')->getShippingAddress()->format('html')) { ?>
+    <p><?php echo $this->__('The bill goes to:'); ?><br/>
+    <?php echo $this->getData('order')->getBillingAddress()->format('html'); ?>
+<?php } else { ?>
+    <p><em><?php echo $this->__('The billing address and the shipping address are the same.'); ?></em></p>
+<?php } ?>
