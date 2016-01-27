@@ -1,0 +1,51 @@
+language: php
+sudo: false
+php:
+- 5.4
+- 5.5
+- 5.6
+- 7.0
+matrix:
+  fast_finish: true
+  allow_failures:
+  - env: MAGENTO_VERSION=magento-ce-1.9.1.1
+  - env: MAGENTO_VERSION=magento-ce-1.9.1.0
+  - php: 5.4
+    env: MAGENTO_VERSION=magento-ce-1.9.2.3
+  - php: 5.6
+    env: MAGENTO_VERSION=magento-mirror-1.8.1.0
+  - php: 7.0
+    env: MAGENTO_VERSION=magento-mirror-1.8.1.0
+env:
+  global:
+  - APPNAME=Ffuenf_TransactionalEmails
+  - secure: pe4yaoI6icn2pY4ukMo9T3+RhJ7JIb+fUy+/Jigkwng7XCaZ7EIgBwvH25DsJplWfKc23/VyDqv1w5FFXM9MyROxqMT9syEVrGWkrg6GijokQqxyiV9Mq5Mq+8suZdNPt8ZYc05Zsof6V9fBFPWGO48FkA+Fwe0Q+zj/pTX+uMQ0VgpEfufdNeS1aMZbpkBQgmoyKxpc4Bdt9T2hf4hJ+5UWg19ASSG7oGA4Ors0AEpTae8zc8EP9xzW+q8hkNeBUb6qqHPKXAvlp6TvSAxJXJ+zP9zSV03ZbyE35HaBsYlVnjQJxcGGqLYLlv7bsjAgy4pZQSNJpiQBoZqAeWbWXBB7dKu1+2qlOUnv3GIPRvE+OB9/F5Gxb6Keesd6a5ANuIaXoNDK6QLKDuLiJCGbvN2oh6lloo4rYJ7vhgKliUoMM56pGJmGdxRhB26vXTkRweQvV0YtzpCwQDEF1SawxK0PUTQvdlY7H1FhGbK+85Sej4MLsfk9CwJbsTYnPGes4HBrh17XW4TSqDfA5fiLlnFQZQjG2UQUqWcsyFeHPIUeVSBqrx7h/vSkHSjlDrZJ3K1PjdNJrK6qS132PifSKMBK8Ogdh+PPVQNZzH9aBOCj5d2j+3SAdbu2ALt5puwHMY7HOsaHCxuDytBfqQcY1Ioa8RV5O13FpCTxez1+T3E=
+  - secure: vKuxOaiAohN9oYltX4EezMdqWWWRJgKA//zU56Xgt15lIeslzSoRDuVS8+rIyDeRGtfpy0hwtPDiVCN25vEDdasOKGDQpTBmTT6VVNmGo7C4f3teziTkU3huc7dKyVpwVsVQsAZL+DU1ubnFqa8hPw/rCGhbUcHn1QtS1WENdXQonx04uV55z+alAzq/xXeRxGt83AECyPYXJwypLEFwymwWZFVNnp0djAUKBqwLHdOc2jVmoNY9NTi7UFyOKHK4ViEzbVIDkvIfFNDmny/W9GRDkX4gKR2bDvWIwswCpSisY/DQCScl/gVJTCk/M4VDhT61psfxYgxUkDI4E3Hl1pRnct1PJHvN7f9bRQLcJooYx8AAtEx9HPHjK/aPacx3YVuRPi5NwTeggRmYfkUvIveq0/6JXgA7q/osbZ4TyargVXgh0j6YOWMbhxg1SLATV35G1QTAblfXcjxFhHpcAdOuh/9+WixRWalpkH8iNAfud7UKAfE0FPjJqbTMJz/X9dICzKPKBaBZf/pWUstZPOkcpXdLCV3Oofy4RKmSpHefIsZdL0QbHB6zYrr09N9Gqd8JruOuWhUBawUXiUAwtbMJoLlDCNnCuvLpekxAaMgH6jVEuYDQNsbfFH9XO72jL02SihzkkRffxAeP10NEIFExwSekTGTErnF7I8/4Moc=
+  matrix:
+  - MAGENTO_VERSION=magento-ce-1.9.2.3
+  - MAGENTO_VERSION=magento-ce-1.9.1.1
+  - MAGENTO_VERSION=magento-mirror-1.8.1.0
+  - MAGENTO_VERSION=magento-mirror-1.7.0.2
+  - MAGENTO_VERSION=magento-mirror-1.6.2.0
+before_script:
+- composer self-update
+- composer install --prefer-source
+script:
+- curl -sSL https://raw.githubusercontent.com/ffuenf/MageTestStand/master/setup.sh
+  | bash
+before_deploy:
+- gem install mime-types -v 2.6.2
+deploy:
+  provider: releases
+  file:
+  - "${APPNAME}-${TRAVIS_TAG}.zip"
+  - "${APPNAME}-${TRAVIS_TAG}.tar.gz"
+  skip_cleanup: true
+  on:
+    branch: master
+    tags: true
+  api_key:
+    secure: U+SjwtRWJ17gsOI4Lg892ZXXjMhED3itrMxuFCx5k1YKcEAn5oYUAWFQ+m5XoPLWgF5LS2J7kHzM7nND3IdT8WWm0zRUIZxlXg30SQLQFXkZMOz/ZSoPfnRS6Mieh7XcN9D4i6OwxganOFbBFpSpVZ3S1ERyLLX3E9pAxx3X0K/Es+p0VLhXnihM3pzcWnUalPB00BvkH1Qd7YaOVJFUvyOoXmnqLI3lMVNPvSD+5pDD56jDX6pd+Hz4XxYI5pghRYM50n0mkpbR8O58bP29FvNVQs8/7BmXkIUhan24PduK1pt9GEG7wKwXoO+2BXQY/HrA8FJmxfmxNRvbuggKQ5VH5+Qo/suzmyBAX+eMtlL6EQtvmn7k6J3yQN7pk7+obLd7zm3O5poC0sKe1CQDl3yI3ZQFO84oRu/RExhrf9qMmuj/RauVtMBUBt6CYTzcIKJ1kPYiFb2c/57cbTABsjXu3QP8eaJjGTFIKsvE3MVVutEWYBO+HXk3Gtz4lKCM5GLIzUkPv0G+UnCQp1yGJ6SVM6sD9VwRinYXDwp4suxhm7eR9VVn9krftxnf2eAN4zo7ghUtHK+FqRRAN7uPzreQ+2UA9IyrDEQwPPGF6/3H1vk+Dn2NLNWqndftZhQ82MPTXY7svo7chatAlOwB/mmooJTyOautvHZnevYPC8M=
+notifications:
+  slack:
+    secure: XgwdUfgqu7YgU44CDCJaniHAqeB3DZMKHT2xm4gXL2tLh8tmPESRozUggOlrUWHSiI4r00ueuLZsAFzFKIC/Vl5IK4LLt45EjkzvvG6nVk3uBq8rEl1Z835x0la7mijT7Lhcce50xHmfsmtLeWWGoTYkQMxqfh37p1D2e8EWJpVhZfQLljXaMRw1w8au7m40+MSocF4oFv88h2ky4q1kV1b0yBNySAA6/nKmMJewl7kOccPVWDxUV4ISyvWOIDaCH+To/dxJA6EMxK/KrbaeNaDh4r+XQcMmcWr94Gle0m1tWbbZdXOnSiIJYlKiqtZ6A/T6NZ3u7ZgEfBGHiZgRUj8ahFGQlDkKvHAV/KFRnogkzXK4/YuV6tGII6TP2baQ3TBJ63PJcQkQ3RlwKJdbYtZtub4bqUt/ZZ/8rZEpWZKzjNRPjRX+vUo2vCE2U7APQG4M17he2WDPGs20LN9eWx7GCCzxdY6e48axRfZemmhR2Xun0cLJOy54NdM64xeXQdwxJaJql7KFSW6I03YsjNuzVwI/kiZRZdFF2i+L1I1TvF0pZ9FOS0Hg5U03ufl7UOJL80PcrZdHV3Ti83oGMOKpXiq00xb5Ld59PWhSeQLf3VNd49ye65fA8I12pVorufnM9vcbrp3leJZgZr34KpYOLha1taruTpPX2Dq1NlQ=

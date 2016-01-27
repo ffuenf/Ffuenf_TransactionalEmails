@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Ffuenf_TransactionalEmails extension
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the MIT License
+* that is bundled with this package in the file LICENSE.txt.
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/mit-license.php
+*
+* @category   Ffuenf
+*
+* @author     Achim Rosenhagen <a.rosenhagen@ffuenf.de>
+* @copyright  Copyright (c) 2015 ffuenf (http://www.ffuenf.de)
+* @license    http://opensource.org/licenses/mit-license.php MIT License
+*/
+-->
+<config>
+    <modules>
+        <Ffuenf_TransactionalEmails>
+            <version>1.0.0</version>
+        </Ffuenf_TransactionalEmails>
+    </modules>
+    <global>
+        <helpers>
+            <ffuenf_transactionalemails>
+                <class>Ffuenf_TransactionalEmails_Helper</class>
+            </ffuenf_transactionalemails>
+        </helpers>
+        <blocks>
+            <ffuenf_transactionalemails>
+                <class>Ffuenf_TransactionalEmails_Block</class>
+            </ffuenf_transactionalemails>
+        </blocks>
+        <models>
+            <sales>
+                <rewrite>
+                    <order>Ffuenf_TransactionalEmails_Model_Order</order>
+                    <order_invoice>Ffuenf_TransactionalEmails_Model_Order_Invoice</order_invoice>
+                    <order_shipment>Ffuenf_TransactionalEmails_Model_Order_Shipment</order_shipment>
+                    <order_creditmemo>Ffuenf_TransactionalEmails_Model_Order_Creditmemo</order_creditmemo>
+                </rewrite>
+            </sales>
+        </models>
+        <resources>
+            <ffuenf_transactionalemails_setup>
+                <setup>
+                    <module>Ffuenf_TransactionalEmails</module>
+                </setup>
+            </ffuenf_transactionalemails_setup>
+        </resources>
+    </global>
+    <default>
+        <ffuenf_transactionalemails>
+            <general>
+                <enable>0</enable>
+            </general>
+        </ffuenf_transactionalemails>
+    </default>
+    <uninstall>
+        <filename>uninstall.txt</filename>
+    </uninstall>
+    <phpunit>
+        <suite>
+            <modules>
+                <Ffuenf_TransactionalEmails/>
+            </modules>
+        </suite>
+    </phpunit>
+</config>

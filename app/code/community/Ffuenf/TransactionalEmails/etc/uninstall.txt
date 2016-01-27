@@ -1,0 +1,2 @@
+app/code/community/Ffuenf/TransactionalEmails
+app/etc/modules/Ffuenf_TransactionalEmails.xml

@@ -1,0 +1,2 @@
+config:
+    default/ffuenf_transactionalemails/general/enable: 1
